@@ -156,6 +156,16 @@ app.post('/api/favorite/addToFavorite', (req, res) => {
 
 })
 
+app.post('/api/favorite/getFavoredMovie', (req, res) => {
+
+    Favorite.find({ 'userFrom': req.body.userFrom})
+    .exec( (err, favorites) => {
+        if(err) return res.status(400).send(err)
+        return res.status(200).json({ success: true, favorites: favorites})
+    })
+
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
