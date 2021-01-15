@@ -3,25 +3,39 @@ import {API_URL, API_KEY, IMAGE_BASE_URL} from '../../Config'
 import MainImage from './Sections/MainImage'
 import GridCards from '../commons/GridCards'
 import { Row } from 'antd'
+import { withRouter } from 'react-router-dom'
 
 function LandingPage(props) {
 
     const [Movies, setMovies] = useState([])
     const [MainMovieImage, setMainMovieImage] = useState(null)
+    const [CurrentPage, setCurrentPage] = useState(0)
 
-    useEffect(() => {
-        const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-
+    const fetchMovies = (endpoint) => {
         fetch(endpoint)
         .then(response => response.json())
         .then(response => {
             
-            setMovies([...response.results])
+            setMovies([...Movies,...response.results])
             setMainMovieImage(response.results[0])
+            setCurrentPage(response.page)
             console.log(response.results)
         })
+    }
+
+    useEffect(() => {
+        const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+
+        fetchMovies(endpoint)
 
     }, [])
+
+    const LoadMoreItems = () => {
+
+        const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${CurrentPage + 1}`
+
+        fetchMovies(endpoint)
+    }
 
 
     return (
@@ -47,6 +61,7 @@ function LandingPage(props) {
                 {Movies && Movies.map((movie, index) => (
                     <React.Fragment key={index}>
                         <GridCards
+                            landingPage
                             image={movie.poster_path ? 
                                 `${IMAGE_BASE_URL}w500${movie.poster_path}` : null}
                             movieId={movie.id}
@@ -59,11 +74,11 @@ function LandingPage(props) {
             </div>
 
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <button> Load More </button>
+                <button onClick={LoadMoreItems}> Load More </button>
             </div>
 
         </div>
     )
 }
 
-export default LandingPage
+export default withRouter(LandingPage)
