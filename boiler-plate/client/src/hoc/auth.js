@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import { useDispatch }from 'react-redux'
+import { useDispatch, useSelector }from 'react-redux'
 import {auth} from '../_actions/user_action'
 
-
-
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function(SepecificComponent, option, adminRoute = null){
 
     /* 
@@ -18,6 +17,7 @@ export default function(SepecificComponent, option, adminRoute = null){
 
     function AuthenticationCheck(props){
         const dispatch = useDispatch()
+        let user = useSelector(state => state.user)
 
         //backend에 auth요청
 
@@ -45,7 +45,7 @@ export default function(SepecificComponent, option, adminRoute = null){
         }, [dispatch, props.history])
 
         return(
-            <SepecificComponent/>
+            <SepecificComponent {...props} user={user} />
         )
     }
     return AuthenticationCheck
