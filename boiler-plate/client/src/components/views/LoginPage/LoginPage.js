@@ -4,7 +4,7 @@ import { loginUser } from '../../../_actions/user_action'
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Form, Input, Button, Checkbox, Typography } from 'antd'
+import { Form, Input, Button, Checkbox, Typography, AutoComplete } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Title } = Typography
@@ -79,7 +79,7 @@ function LoginPage(props) {
                     handleSubmit,
                 } = props
                 return (
-                    <div className="app" style= {{ display: 'inlise', position:'center'}}>
+                    <div className="app" style= {{ display: 'table', margin: 'auto', marginTop: '100px' }}>
                     <Title level={2}>Login</Title>
 
                         <form onSubmit={handleSubmit} style={{ width: '350px' }}>
