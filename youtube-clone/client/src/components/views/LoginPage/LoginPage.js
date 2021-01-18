@@ -4,7 +4,7 @@ import { loginUser } from '../../../_actions/user_action'
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { Form, Input, Button, Checkbox, Typography, AutoComplete } from 'antd'
+import { Form, Input, Button, Checkbox, Typography } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Title } = Typography

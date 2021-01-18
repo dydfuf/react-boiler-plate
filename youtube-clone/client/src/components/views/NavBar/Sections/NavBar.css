@@ -37,10 +37,12 @@
 }
 
 .menu__container .menu_left {
+  padding-top: 10px;
   float: left;
 }
 
 .menu__container .menu_rigth {
+  padding-top: 10px;
   float: right;
 }
 
