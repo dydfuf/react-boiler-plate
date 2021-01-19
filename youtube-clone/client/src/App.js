@@ -11,6 +11,7 @@ import NavBar from './components/views/NavBar/NavBar'
 import Footer from './components/views/Footer/Footer'
 import UploadVideoPage from './components/views/UploadVideoPage/UploadVideoPage'
 import VideoDetailPage from './components/views/VideoDetailPage/VideoDetailPage'
+import SubscriptionPage from './components/views/SubscriptionPage/SubscriptionPage'
 import Auth from './hoc/auth'
 import { Suspense } from 'react';
 
@@ -35,6 +36,7 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/video/upload" component={Auth(UploadVideoPage, true)} />
           <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />
+          <Route exact path="/subscription" component={Auth(SubscriptionPage, true)} />
         </Switch>
       </div>
       <Footer />
