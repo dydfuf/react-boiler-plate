@@ -17,6 +17,9 @@ var ffmpeg = require('fluent-ffmpeg')
 const { Video } = require('./models/Video')
 //vidoe module end
 
+//subscrive module
+const { Subscriber } = require('./models/Subscriber')
+
 //application/x-www-form-urlencoded
 app.use(bodyPaerser.urlencoded({ extended: true }))
 
@@ -76,7 +79,7 @@ app.post('/api/users/login', (req, res) => {
                 // 토큰을 저장한다. 어디에? 쿠키, 로컬 스토리지, 세션 여기서는 쿠키에
                 res.cookie("x_auth", user.token)
                     .status(200)
-                    .json({ loginSuccess: true, userID: user._id })
+                    .json({ loginSuccess: true, userId: user._id })
             })
         })
     })
@@ -188,6 +191,79 @@ app.post('/api/video/uploadVideo', (req, res) => {
     })
 
 })
+
+app.get('/api/video/getVideos', (req, res) => {
+
+    //비디오를 DB에서 가져와서 클라이언트에 보낸다.
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) return res.status(400).send(err)
+            res.status(200).json({ success: true, videos })
+        })
+})
+
+app.post('/api/video/getVideoDetail', (req, res) => {
+
+    Video.findOne({ "_id": req.body.videoId })
+        .populate('writer')
+        .exec((err, videoDetail) => {
+            if (err) return res.status(400).send(err)
+            res.status(200).json({ success: true, videoDetail })
+        })
+
+})
+
+// ===============================
+// Subscribe                     =
+// ===============================
+
+app.post('/api/subscribe/subscribeNumber', (req, res) => {
+
+    Subscriber.find({ 'userTo': req.body.userTo })
+        .exec((err, subscribe) => {
+            if (err) return res.status(400).send(err)
+            return res.status(200).json({ success: true, subscribeNumber: subscribe.length })
+        })
+})
+
+app.post('/api/subscribe/subscribed', (req, res) => {
+
+    console.log(req.body)
+
+    Subscriber.find({ 'userTo': req.body.userTo, 'userFrom': req.body.userFrom })
+        .exec((err, subscribe) => {
+            if (err) return res.status(400).send(err)
+            let result = false
+            if (subscribe.length !== 0) {
+                result = true
+            }
+            res.status(200).json({ success: true, subscribed: result })
+        })
+
+})
+
+app.post('/api/subscribe/unSubscribe', (req, res) => {
+
+    Subscriber.findOneAndDelete({ userTo: req.body.userTo, userFrom: req.body.userFrom })
+        .exec((err, doc) => {
+            if (err) return res.status(400).send(err)
+            return res.status(200).json({ success: true, doc })
+        })
+
+})
+
+app.post('/api/subscribe/doSubscribe', (req, res) => {
+
+    const subscriber = new Subscriber(req.body)
+    console.log(subscriber)
+    subscriber.save((err, doc) => {
+        if (err) return res.status(400).send(err)
+        res.status(200).json({ success: true, doc})
+    })
+
+})
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
