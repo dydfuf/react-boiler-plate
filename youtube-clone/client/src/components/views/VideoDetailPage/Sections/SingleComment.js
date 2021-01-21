@@ -33,6 +33,7 @@ function SingleComment(props) {
         axios.post('/api/comment/saveComment', variables)
         .then(response => {
             if(response.data.success){
+                console.log(response.data)
                 props.refreshFunction(response.data.result)
                 setOpenReply(!OpenReply)
                 setcommentValue("")
