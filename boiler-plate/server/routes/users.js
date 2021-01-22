@@ -1,35 +1,15 @@
 const express = require('express')
-const app = express()
-const port = 5000
+const router = express.Router()
+const { User } = require("../models/User")
 
-const bodyPaerser = require('body-parser')
-const { User } = require('./models/User')
+const { auth } = require('../middleware/auth')
 
-const config = require('./config/key')
+// =========================
+//         User
+// =========================
 
-const cookieParser = require('cookie-parser')
 
-const { auth } = require('./middleware/auth')
-
-//application/x-www-form-urlencoded
-app.use(bodyPaerser.urlencoded({extended: true}))
-
-//application/json
-app.use(bodyPaerser.json())
-
-app.use(cookieParser())
-
-const mongoose = require('mongoose')
-mongoose.connect(config.mongoURI, {
-    useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true
-}).then(() => console.log('MongoDB Connected..'))
-.catch(err => console.log(err))
- 
-app.use('/api/users', require('./routes/users'))
-
-app.use('/uploads', express.static('./uploads'))
-
-app.post('/api/users/register', (req, res) => {
+router.post('/register', (req, res) => {
     
     //회원 가입 할때 필요한 정보들을 클라이언트에서 가져오면
     //그것들을 데이터 베이스에 넣어 준다.
@@ -45,7 +25,7 @@ app.post('/api/users/register', (req, res) => {
 
 })
 
-app.post('/api/users/login', (req, res) => {
+router.post('/login', (req, res) => {
 
     //요청된 이메일을 데이터베이스에서 있는지 찾는다.
     User.findOne({ email: req.body.email }, (err, user) => {
@@ -66,6 +46,7 @@ app.post('/api/users/login', (req, res) => {
                 if(err) return res.status(400).send(err);
 
                 // 토큰을 저장한다. 어디에? 쿠키, 로컬 스토리지, 세션 여기서는 쿠키에
+                res.cookie('x_authExp', user.tokenExp)
                 res.cookie("x_auth", user.token)
                 .status(200)
                 .json({ loginSuccess: true, userId: user._id})
@@ -75,7 +56,7 @@ app.post('/api/users/login', (req, res) => {
 })
 
 //auth는 미들웨어
-app.get('/api/users/auth', auth, (req, res) => {
+router.get('/auth', auth, (req, res) => {
 
     //여기까지 미들웨어를 통과해 왔다는 얘기는 Auth이 True라는 말!
     res.status(200).json({ 
@@ -91,7 +72,7 @@ app.get('/api/users/auth', auth, (req, res) => {
 
 })
 
-app.get('/api/users/logout', auth, (req, res) => {
+router.get('/logout', auth, (req, res) => {
 
     User.findOneAndUpdate( { _id: req.user._id }, { token: ""}, (err, user) => {
         if(err) return res.json({ success: false, err})
@@ -102,10 +83,4 @@ app.get('/api/users/logout', auth, (req, res) => {
 
 })
 
-app.get('/api/hello', (req,res) =>{
-    res.send("안녕하세요~")
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+module.exports = router
