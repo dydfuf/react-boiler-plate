@@ -51,17 +51,25 @@ function CardList(props) {
         slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
     }, [currentSlide]);
     return (
-        <Container>
-            {currentSlide}
-            <SliderContainer ref={slideRef}>
-                <Card img={img1} />
-                <Card img={img1} />
-                <Card img={img1} />
-                
-            </SliderContainer>
-            <Button onClick={prevSlide}>Previous Slide</Button>
-            <Button onClick={nextSlide}>Next Slide</Button>
-        </Container>
+        <div style={{ display: 'flex'}}>
+            <div>
+                <Button onClick={prevSlide}>Previous Slide</Button>
+            </div>
+            <Container>
+                {currentSlide}
+                <SliderContainer ref={slideRef}>
+                    <Card img={img1} />
+                    <Card img={img1} />
+                    <Card img={img1} />
+
+                </SliderContainer>
+            </Container>
+            <div>
+                <Button onClick={nextSlide}>Next Slide</Button>
+
+            </div>
+        </div>
+
     )
 }
 
