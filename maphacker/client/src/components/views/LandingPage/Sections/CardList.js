@@ -7,18 +7,21 @@ import { Row } from 'antd'
 function CardList(props) {
     const Container = styled.div`
   width: 100%;
-  overflow: hidden; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
+  overflow-x: hidden; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
 `;
 
     const Button = styled.button`
-  all: unset;
-  border: 1px solid coral;
-  padding: 0.5em 2em;
-  color: coral;
-  border-radius: 10px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    width: 4%;
+    text-align: center;
+    display: flex;
+    color: #fff;
+    justify-content: center;
   &:hover {
     transition: all 0.3s ease-in-out;
-    background-color: coral;
     color: #fff;
   }
 `;
@@ -51,24 +54,25 @@ function CardList(props) {
         slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
     }, [currentSlide]);
     return (
-        <div style={{ display: 'flex'}}>
-            <div>
-                <Button onClick={prevSlide}>Previous Slide</Button>
-            </div>
-            <Container>
-                {currentSlide}
-                <SliderContainer ref={slideRef}>
-                    <Card img={img1} />
-                    <Card img={img1} />
-                    <Card img={img1} />
-
-                </SliderContainer>
-            </Container>
-            <div>
-                <Button onClick={nextSlide}>Next Slide</Button>
-
+        <div style={{ margin: '3vw 0'}}>
+            {currentSlide}
+            <div style={{ display: 'flex', position: 'relative', margin: '0', padding: '0 4%', touchAction: 'pan-y' }}>
+                <div>
+                    <Button onClick={prevSlide}>◀️</Button>
+                </div>
+                <Container>
+                    <SliderContainer ref={slideRef}>
+                        <Card img={img1} />
+                        <Card img={img1} />
+                        <Card img={img1} />
+                    </SliderContainer>
+                </Container>
+                <div>
+                    <Button onClick={nextSlide}>▶️</Button>
+                </div>
             </div>
         </div>
+
 
     )
 }

@@ -14,10 +14,8 @@ function LandingPage(props) {
             width: '100%', height: '100vh'
         }}>
             <CardList 
-            title = "내가 찜한 콘텐츠"
             />
             <CardList 
-            title = "내가 시청중인 콘텐츠"
             />
         </div>
     )
