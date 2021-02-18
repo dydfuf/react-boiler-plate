@@ -36,6 +36,9 @@ function RightMenu(props) {
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
+        <Menu.Item key="mypage">
+          <a onClick={logoutHandler}>MyPage</a>
+        </Menu.Item>
       </Menu>
     )
   }
