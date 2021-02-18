@@ -20,6 +20,7 @@ const Slider = ({ children, title }) => {
     const contextValue = {
         elementRef,
     };
+    console.log({children})
     return (
         <div style={{ margin: '3vw 0' }}>
             <SliderContext.Provider value={contextValue}>
@@ -34,7 +35,7 @@ const Slider = ({ children, title }) => {
                     <div
                         className={'slider'}
                     >
-                        <div ref={containerRef} className="slider__container" {...slideProps}>{children}</div>
+                       <div ref={containerRef} className="slider__container" {...slideProps}>{children}</div>
                     </div>
                     {hasPrev && <SlideButton onClick={handlePrev} type="prev" />}
                     {hasNext && <SlideButton onClick={handleNext} type="next" />}

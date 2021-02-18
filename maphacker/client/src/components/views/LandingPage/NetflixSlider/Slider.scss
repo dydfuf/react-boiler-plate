@@ -15,7 +15,7 @@
     }
 
     &:not(&--open) .item:hover{
-        transform: scale(1.5) !important;
+        transform: scale(0.9) !important;
         z-index: 1;
     }
 
