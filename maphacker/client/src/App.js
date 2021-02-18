@@ -16,17 +16,19 @@ import { Suspense } from 'react';
 export class App extends Component {
   render() {
     return (
-      <Suspense fallback={(<div> Loading ... </div>)}>
-        <NavBar />
-        <div style={{ paddingTop: '69px', minHeight: 'clac(100vh - 80px)' }}>
-          <Switch>
-            <Route exact path="/" component={Auth(LandingPage, null)} />
-            <Route exact path="/login" component={Auth(LoginPage, false)} />
-            <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          </Switch>
-        </div>
-        <Footer />
-      </Suspense>
+      <div>
+        <Suspense fallback={(<div> Loading ... </div>)}>
+          <NavBar />
+          <div style={{ paddingTop: '69px', minHeight: 'clac(100vh - 80px)' }}>
+            <Switch>
+              <Route exact path="/" component={Auth(LandingPage, null)} />
+              <Route exact path="/login" component={Auth(LoginPage, false)} />
+              <Route exact path="/register" component={Auth(RegisterPage, false)} />
+            </Switch>
+          </div>
+          <Footer />
+        </Suspense>
+      </div>
     )
   }
 }
