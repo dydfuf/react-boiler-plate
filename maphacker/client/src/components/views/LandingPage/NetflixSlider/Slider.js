@@ -25,7 +25,7 @@ const Slider = ({ children, title }) => {
         <div style={{ margin: '3vw 0' }}>
             <SliderContext.Provider value={contextValue}>
                 <div
-                    style={{ display: 'flex', verticalAlign: 'bottom', lineHeight: '1.25vw', fontSize: '1.4vw', fontWeight: '700', margin: '0 4% .5em 4%' }}
+                    style={{ display: 'flex', verticalAlign: 'bottom', lineHeight: '1.25vw', fontSize: '1.4vw', fontWeight: '700', margin: '0 4% .5em 55px' }}
                 >
                     <a href={`/category/${title}`}>
                         {title}
