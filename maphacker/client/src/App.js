@@ -12,6 +12,7 @@ import NavBar from './components/views/NavBar/NavBar'
 import Footer from './components/views/Footer/Footer'
 import MapInfo from './components/views/MapInfoPage/MapInfo'
 import CategoryPage from './components/views/CategoryPage/CategoryPage'
+import RepositoryPage from './components/views/RepositoryPage/RepositoryPage'
 import Auth from './hoc/auth'
 import { Suspense } from 'react';
 
@@ -38,6 +39,7 @@ export class App extends Component {
               <Route exact path="/register" component={Auth(RegisterPage, false)} />
               <Route exact path="/mapinfo/:mapId" component={Auth(MapInfo, null)} />
               <Route exact path="/category/:categoryId" component={Auth(CategoryPage, null)} />
+              <Route exact path="/repository/:userId" component={Auth(RepositoryPage, null)} />
             </Switch>
           </div>
           <Footer />
